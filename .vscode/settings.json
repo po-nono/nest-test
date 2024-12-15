@@ -1,0 +1,6 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode", //デフォルトのformatterとしてPrettierを使用
+  "prettier.trailingComma": "none",
+  "editor.formatOnSave": true,
+  "prettier.semi": false
+}
