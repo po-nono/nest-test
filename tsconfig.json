@@ -10,6 +10,13 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "controller/*": ["src/controller/*"],
+      "service/*": ["src/service/*"],
+      "module/*": ["src/module/*"],
+      "lib/*": ["src/lib/*"],
+      "util/*": ["src/util/*"]
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
