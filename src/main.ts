@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core'
-import { PirtyModule } from 'module/pirty'
+import { PirtyModule } from 'src/pirty/pirty.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(PirtyModule)

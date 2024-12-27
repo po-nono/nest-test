@@ -1,15 +1,14 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
-import { PirtyService } from 'service/pirty'
+import { Pirty } from 'src/pirty/pirty.entity'
+import { PirtyService } from 'src/pirty/pirty.service'
 
 @Controller('/pirty')
 export class PirtyController {
   constructor(private readonly service: PirtyService) {}
 
   @Get()
-  getPirty(@Query('id') id: string, @Query('name') name: string): string {
-    console.log(id)
-    console.log(name)
-    return this.service.getPirty(id, name)
+  async getPirty(@Query('id') id: number): Promise<Pirty> {
+    return await this.service.findOne(id)
   }
 
   @Get(':id')
