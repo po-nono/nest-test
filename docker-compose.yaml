@@ -1,8 +1,8 @@
 services:
   db:
     platform: linux/x86_64
-    image: mysql:latest
-    command: mysqld --datadir=./data:/var/lib/mysql --user=nest
+    image: mysql:9.1.0
+    command: mysqld --datadir=./data:/var/lib/mysql --user=nest_user
     volumes:
       - db-data:/var/lib/mysql
     ports:
@@ -21,7 +21,7 @@ services:
       - db
     build: .
     volumes:
-      - ./src:/app/src # マウントするディレクトリを指定
+      - ./src:/app/src
     ports:
       - "3000:3000"
     restart: always

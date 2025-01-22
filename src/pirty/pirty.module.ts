@@ -6,7 +6,6 @@ import { PirtyService } from 'src/pirty/pirty.service'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Pirty])],
-  exports: [TypeOrmModule],
   controllers: [PirtyController],
   providers: [PirtyService]
 })

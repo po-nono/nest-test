@@ -18,6 +18,8 @@ export class PirtyService {
     return this.repository.findOneBy({ id })
   }
 
+  //  async create(pirty: Pirty): Promise<Pirty> {}
+
   async remove(id: number): Promise<void> {
     await this.repository.delete(id)
   }

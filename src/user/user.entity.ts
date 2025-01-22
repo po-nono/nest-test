@@ -1,11 +1,12 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Depertment } from '../depertment/depertment.entity'
 import { Pirty } from '../pirty/pirty.entity'
+import { PirtyUser } from 'src/pirtyUser/pirtyUser.entity'
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number
+  @PrimaryGeneratedColumn('uuid')
+  id: string
 
   @Column()
   name: string
@@ -13,13 +14,13 @@ export class User {
   @Column()
   slackId: string
 
-  @ManyToMany(() => Pirty, (pirty) => pirty.users, {
-    onDelete: 'CASCADE',
-    eager: true
-  })
-  @JoinTable()
+  @OneToMany(() => PirtyUser, (pirtyUser) => pirtyUser.pirty)
   pirtys: Pirty[]
 
-  @OneToMany(() => Depertment, (depertment) => depertment.id)
-  depertment: Depertment
+  @ManyToMany(() => Pirty, (pirty) => pirty.owners)
+  organizePirtys: Pirty[]
+
+  @ManyToMany(() => Depertment, (depertment) => depertment.id, { eager: true, cascade: true })
+  @JoinTable()
+  depertment: Depertment[]
 }

@@ -1,6 +1,7 @@
-import { Controller, Get, Param, Query } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { Pirty } from 'src/pirty/pirty.entity'
 import { PirtyService } from 'src/pirty/pirty.service'
+import { CreatePirtyDto } from './dto/createPirty.dto'
 
 @Controller('/pirty')
 export class PirtyController {
@@ -15,5 +16,10 @@ export class PirtyController {
   findPirty(@Param('id') id: string): string {
     console.log(id)
     return 'hoge'
+  }
+
+  @Post()
+  async create(@Body() createPirtyDto: CreatePirtyDto) {
+    //this.service.create(createPirtyDto)
   }
 }
