@@ -7,6 +7,11 @@ export class UserController {
   constructor(private readonly service: UserService) {}
 
   @Get()
+  async get(): Promise<User[]> {
+    return await this.service.findAll()
+  }
+
+  @Get()
   async getUser(@Query('id') id: number): Promise<User> {
     return await this.service.findOne(id)
   }

@@ -1,7 +1,8 @@
 import { EntityBase } from 'src/common/date.entity'
 import { PirtyUser } from 'src/pirtyUser/pirtyUser.entity'
+import { Place } from 'src/place/place.entity'
 import { User } from 'src/user/user.entity'
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 export enum HoldingStatus {
   ACTIVE = 'active',
@@ -10,17 +11,33 @@ export enum HoldingStatus {
 
 @Entity()
 export class Pirty extends EntityBase {
+  constructor(
+    title: string,
+    place: Place,
+    budget: number,
+    date: Date,
+    members: User[],
+    owners: User[],
+    holdingStatus: HoldingStatus
+  ) {
+    super()
+    this.title = title
+    this.place = place
+    this.budget = budget
+    this.date = date
+    this.members = members
+    this.owners = owners
+    this.holdingStatus = holdingStatus
+  }
+
   @PrimaryGeneratedColumn()
-  id: number
+  id?: number
 
   @Column()
   title: string
 
-  @Column({ nullable: true })
-  location: string
-
-  @Column({ nullable: true })
-  locationUrl?: string
+  @ManyToOne(() => Place, (place) => place.id, { eager: true, cascade: true })
+  place: Place
 
   @Column({ nullable: true })
   budget: number
@@ -37,4 +54,7 @@ export class Pirty extends EntityBase {
 
   @Column({ default: HoldingStatus.ACTIVE })
   holdingStatus: HoldingStatus
+
+  @OneToOne(() => User, (user) => user.id, { eager: true, cascade: true })
+  creator: User
 }
