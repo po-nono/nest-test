@@ -1,8 +1,19 @@
 import { EntityBase } from 'src/common/date.entity'
-import { PirtyUser } from 'src/pirtyUser/pirtyUser.entity'
+import { Condition } from 'src/condition/condition.entity'
+import { Participant } from 'src/participant/participant.entity'
 import { Place } from 'src/place/place.entity'
 import { User } from 'src/user/user.entity'
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm'
 
 export enum HoldingStatus {
   ACTIVE = 'active',
@@ -11,33 +22,14 @@ export enum HoldingStatus {
 
 @Entity()
 export class Pirty extends EntityBase {
-  constructor(
-    title: string,
-    place: Place,
-    budget: number,
-    date: Date,
-    members: User[],
-    owners: User[],
-    holdingStatus: HoldingStatus
-  ) {
-    super()
-    this.title = title
-    this.place = place
-    this.budget = budget
-    this.date = date
-    this.members = members
-    this.owners = owners
-    this.holdingStatus = holdingStatus
-  }
-
   @PrimaryGeneratedColumn()
-  id?: number
+  id: number
 
   @Column()
   title: string
 
-  @ManyToOne(() => Place, (place) => place.id, { eager: true, cascade: true })
-  place: Place
+  @Column()
+  memberCountLimit: number
 
   @Column({ nullable: true })
   budget: number
@@ -45,8 +37,14 @@ export class Pirty extends EntityBase {
   @Column({ nullable: true })
   date: Date
 
-  @OneToMany(() => PirtyUser, (pirtyUser) => pirtyUser.user, { eager: true, cascade: true })
-  members: User[]
+  @OneToMany(() => Condition, (condition) => condition.id)
+  conditions: Condition[]
+
+  @ManyToOne(() => Place, (place) => place.id, { eager: true, cascade: true })
+  place: Place
+
+  @OneToMany(() => Participant, (participant) => participant.pirty, { eager: true, cascade: true })
+  members: Participant[]
 
   @ManyToMany(() => User, (user) => user.organizePirtys, { eager: true, cascade: true })
   @JoinTable()
@@ -55,6 +53,7 @@ export class Pirty extends EntityBase {
   @Column({ default: HoldingStatus.ACTIVE })
   holdingStatus: HoldingStatus
 
-  @OneToOne(() => User, (user) => user.id, { eager: true, cascade: true })
+  @ManyToOne(() => User, (user) => user.id, { eager: true, cascade: true })
+  //  @JoinColumn()
   creator: User
 }

@@ -1,20 +1,15 @@
+import { Participant } from 'src/participant/participant.entity'
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Depertment } from '../depertment/depertment.entity'
 import { Pirty } from '../pirty/pirty.entity'
-import { PirtyUser } from 'src/pirtyUser/pirtyUser.entity'
 
 @Entity()
 export class User {
-  constructor(name: string, slackId: string, depertment: Depertment[], pirtys: Pirty[], organizePirtys: Pirty[]) {
-    this.name = name
-    this.slackId = slackId
-    this.depertment = depertment
-    this.pirtys = pirtys
-    this.organizePirtys = organizePirtys
-  }
-
   @PrimaryGeneratedColumn('uuid')
   id!: string
+
+  @Column()
+  email: string
 
   @Column()
   name: string
@@ -22,8 +17,9 @@ export class User {
   @Column()
   slackId: string
 
-  @OneToMany(() => PirtyUser, (pirtyUser) => pirtyUser.pirty)
-  pirtys: Pirty[]
+  @OneToMany(() => Participant, (participant) => participant.user)
+  @JoinTable()
+  pirtys: Participant[]
 
   @ManyToMany(() => Pirty, (pirty) => pirty.owners)
   organizePirtys: Pirty[]

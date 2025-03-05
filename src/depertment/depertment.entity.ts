@@ -7,4 +7,7 @@ export class Depertment {
 
   @Column()
   name: string
+  // 1: ITプロダクト
+  // 2: CCoE
+  // 3: データプラットフォーム
 }

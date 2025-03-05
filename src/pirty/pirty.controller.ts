@@ -23,7 +23,7 @@ export class PirtyController {
   }*/
 
   @Post()
-  async createPirty(): Promise<InsertResult> {
+  async createPirty(): Promise<Pirty> {
     return await this.service.create()
   }
 

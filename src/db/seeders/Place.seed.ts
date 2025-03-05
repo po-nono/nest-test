@@ -4,7 +4,17 @@ import { Place } from 'src/place/place.entity'
 
 export default class PlaceSeeder extends Seeder {
   async run(dataSource: DataSource) {
-    const places: Place[] = [new Place('かいしゃ', 'ごたんだのとこ')]
-    await dataSource.createEntityManager().save<Place>(places)
+    const repository = dataSource.getRepository(Place)
+    const places = repository.create([
+      {
+        name: 'かいしゃ',
+        address: 'ごたんだのとこ'
+      },
+      {
+        name: 'おるびす',
+        address: 'とごし'
+      }
+    ])
+    await repository.save(places)
   }
 }

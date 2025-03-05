@@ -5,6 +5,7 @@ import { InsertResult, Repository } from 'typeorm'
 import { CreatePirtyDto } from './dto/createPirty.dto'
 import { Place } from 'src/place/place.entity'
 import { User } from 'src/user/user.entity'
+import { PaidStatus, Participant } from 'src/participant/participant.entity'
 
 @Injectable()
 export class PirtyService {
@@ -16,7 +17,10 @@ export class PirtyService {
     private placeRepository: Repository<Place>,
 
     @InjectRepository(User)
-    private userRepository: Repository<User>
+    private userRepository: Repository<User>,
+
+    @InjectRepository(Participant)
+    private participantRepository: Repository<Participant>
   ) {}
 
   findAll(): Promise<Pirty[]> {
@@ -27,34 +31,38 @@ export class PirtyService {
     return this.repository.findOneBy({ id })
   }
 
-  async create(): Promise<InsertResult> {
-    const dto: CreatePirtyDto = {
-      title: 'test',
-      placeId: '8fcf2af1-ce79-4733-ae63-e907cf26bc34',
-      budget: 1000,
+  async create(): Promise<Pirty> {
+    const place = await this.placeRepository.findOneBy({ name: 'かいしゃ' })
+    const member = await this.userRepository.findOneBy({ name: 'たろう' })
+    const creator = await this.userRepository.findOneBy({ name: 'じろう' })
+    console.log(place)
+    console.log(member)
+    console.log(creator)
+    const pirty: Pirty = this.repository.create({
+      title: 'のみかい',
+      memberCountLimit: 10,
+      budget: 2000,
       date: '2024-02-12',
-      members: ['505162f5-41c3-4b48-80d6-c4ab82b298c6'],
-      holdingStatus: HoldingStatus.ACTIVE,
-      creatorId: 'a3668396-4693-45e8-85f8-52bd04e113e4'
-    }
-
-    const place = await this.placeRepository.findOneBy({ id: dto.placeId })
-    const members = await this.userRepository.findBy(
-      dto.members.map((id) => {
-        return { id }
-      })
-    )
-    const creator = await this.userRepository.findOneBy({ id: dto.creatorId })
-    return this.repository.insert({
-      title: dto.title,
+      conditions: [],
       place,
-      members,
-      creator,
-      holdingStatus: dto.holdingStatus,
-      owners: [],
-      budget: dto.budget,
-      date: dto.date
+      members: [],
+      owners: [member],
+      holdingStatus: HoldingStatus.ACTIVE,
+      creator
     })
+    console.log(pirty)
+    console.log('ぬ')
+    const result = await this.repository.save(pirty)
+    console.log('ぽp')
+    console.log('ぬ')
+    const participant = this.participantRepository.create({
+      userId: member.id,
+      pirtyId: result.id,
+      paid: PaidStatus.NOTYET
+    })
+    await this.participantRepository.save(participant)
+
+    return result
   }
 
   async remove(id: number): Promise<void> {

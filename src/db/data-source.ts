@@ -11,5 +11,5 @@ export default new DataSource({
   entities: ['./dist/**/*.entity{.ts,.js}'],
   migrations: ['./dist/**/migrations/*{.ts,.js}'],
   connectTimeout: 30 * 1000,
-  logging: process.env.NODE_ENV === 'development'
+  logging: true
 })

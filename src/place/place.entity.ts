@@ -5,14 +5,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class Place extends EntityBase {
-  constructor(name: string, address: string) {
-    super()
-    this.name = name
-    this.address = address
-  }
-
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id?: string
 
   @Column()
   name: string

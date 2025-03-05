@@ -1,8 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
+import { Condition } from 'src/condition/condition.entity'
 import { Pirty } from 'src/pirty/pirty.entity'
 import { User } from 'src/user/user.entity'
 import { Depertment } from '../depertment/depertment.entity'
-import { PirtyUser } from '../pirtyUser/pirtyUser.entity'
+import { Participant } from '../participant/participant.entity'
 import { Place } from '../place/place.entity'
 
 export const typeormConfig: TypeOrmModuleOptions = {
@@ -13,7 +14,7 @@ export const typeormConfig: TypeOrmModuleOptions = {
   password: 'nest_password',
   database: 'pirty',
   synchronize: true,
-  entities: [User, Pirty, Depertment, PirtyUser, Depertment, Place],
+  entities: [User, Pirty, Depertment, Participant, Depertment, Place, Condition],
   connectTimeout: 30 * 1000,
-  logging: process.env.NODE_ENV === 'development'
+  logging: true
 }

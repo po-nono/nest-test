@@ -21,20 +21,24 @@ export enum PaidStatus {
 }
 
 @Entity()
-export class PirtyUser extends EntityBase {
-  @PrimaryColumn()
-  userId: number
+export class Participant extends EntityBase {
+  @PrimaryGeneratedColumn()
+  id: number
 
-  @PrimaryColumn()
+  @Column()
+  userId: string
+
+  @Column()
   pirtyId: number
 
-  @ManyToOne(() => User, (user) => user.id, {
-    onDelete: 'CASCADE'
+  @ManyToOne(() => User, (user) => user.pirtys, {
+    onDelete: 'CASCADE',
+    eager: true
   })
   @JoinColumn({ name: 'userId' })
   user: User
 
-  @ManyToOne(() => Pirty, (pirty) => pirty.id, {
+  @ManyToOne(() => Pirty, (pirty) => pirty.members, {
     onDelete: 'CASCADE'
   })
   @JoinColumn({ name: 'pirtyId' })

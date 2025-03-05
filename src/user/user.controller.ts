@@ -12,13 +12,12 @@ export class UserController {
   }
 
   @Get()
-  async getUser(@Query('id') id: number): Promise<User> {
+  async getUser(@Query('id') id: string): Promise<User> {
     return await this.service.findOne(id)
   }
 
   @Get(':id')
-  findUser(@Param('id') id: string): string {
-    console.log(id)
-    return 'hoge'
+  async findUser(@Param('id') id: string): Promise<User> {
+    return await this.service.findOne(id)
   }
 }
