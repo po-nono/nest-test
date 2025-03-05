@@ -1,0 +1,35 @@
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:9.1.0
+    command: mysqld --datadir=./data:/var/lib/mysql --user=nest_user
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: nest_root
+      MYSQL_DATABASE: pirty
+      MYSQL_USER: nest_user
+      MYSQL_PASSWORD: nest_password
+    cap_add:
+      - SYS_NICE
+  nest:
+    platform: linux/x86_64
+    command: npm run dev
+    depends_on:
+      - db
+    build: .
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "3000:3000"
+    restart: always
+    environment:
+      DB_PORT: 3306
+      DB_HOST: db
+      DB_NAME: pirty
+      DB_USER: nest_user
+      DB_PASS: nest_password
+volumes:
+  db-data:

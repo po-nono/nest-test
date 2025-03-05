@@ -11,11 +11,10 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "controller/*": ["src/controller/*"],
-      "service/*": ["src/service/*"],
-      "module/*": ["src/module/*"],
+      "src/*": ["src/*"],
       "lib/*": ["src/lib/*"],
-      "util/*": ["src/util/*"]
+      "util/*": ["src/util/*"],
+      "entity/*": ["src/entity/*"],
     },
     "incremental": true,
     "skipLibCheck": true,
