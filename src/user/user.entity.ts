@@ -14,12 +14,12 @@ export class User {
   @Column()
   name: string
 
-  @Column()
+  @Column({ nullable: true, default: null })
   slackId: string
 
   @OneToMany(() => Participant, (participant) => participant.user)
   @JoinTable()
-  pirtys: Participant[]
+  entryPirtys: Participant[]
 
   @ManyToMany(() => Pirty, (pirty) => pirty.owners)
   organizePirtys: Pirty[]

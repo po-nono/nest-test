@@ -31,7 +31,7 @@ export class Participant extends EntityBase {
   @Column()
   pirtyId: number
 
-  @ManyToOne(() => User, (user) => user.pirtys, {
+  @ManyToOne(() => User, (user) => user.entryPirtys, {
     onDelete: 'CASCADE',
     eager: true
   })

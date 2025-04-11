@@ -1,43 +1,40 @@
 import { User } from 'src/user/user.entity'
-import { HoldingStatus, Pirty } from '../pirty.entity'
-import {
-  IsArray,
-  IsDate,
-  IsDateString,
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Length
-} from 'class-validator'
+import { IsArray, IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator'
+import { Place } from 'src/place/place.entity'
+import { CreateConditionDto } from 'src/condition/dto/createCondition.dto'
 
 export class CreatePirtyDto {
   @IsNotEmpty()
   @IsString()
   title: string
 
-  @IsNotEmpty()
-  @IsString()
-  placeId: string
-
+  @IsOptional()
   @IsNumber()
-  budget: number
+  memberCountLimit?: number
 
+  @IsOptional()
+  @IsNumber()
+  budget?: number
+
+  @IsOptional()
   @IsDateString()
-  date: string
+  date?: string
 
   @IsOptional()
   @IsArray()
-  members?: string[]
+  conditions?: CreateConditionDto[]
 
-  @IsArray()
-  @Length(1)
   @IsOptional()
-  owners?: string[]
+  @IsString()
+  placeId?: Place['id']
 
-  @IsEnum(HoldingStatus)
-  holdingStatus: HoldingStatus
+  @IsOptional()
+  @IsArray()
+  members?: User['id'][]
+
+  @IsOptional()
+  @IsArray()
+  owners?: User['id'][]
 
   @IsNotEmpty()
   @IsString()
