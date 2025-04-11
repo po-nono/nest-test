@@ -1,15 +1,15 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common'
 import { Pirty } from 'src/pirty/pirty.entity'
 import { PirtyService } from 'src/pirty/pirty.service'
 import { CreatePirtyDto } from './dto/createPirty.dto'
-import { InsertResult } from 'typeorm'
+import { DeleteResult, InsertResult } from 'typeorm'
 
 @Controller('/pirty')
 export class PirtyController {
   constructor(private readonly service: PirtyService) {}
 
   @Get()
-  async getPirtys(@Query('id') id: number): Promise<Pirty[]> {
+  async getPirtys(): Promise<Pirty[]> {
     return await this.service.findAll()
   }
 
@@ -18,17 +18,28 @@ export class PirtyController {
     return await this.service.findOne(id)
   }
 
-  /*async createPirty(@Body() createPirtyDto: CreatePirtyDto): Promise<InsertResult> {
-    return await this.service.create(createPirtyDto)
-  }*/
-
-  @Post()
-  async createPirty(): Promise<Pirty> {
-    return await this.service.create()
-  }
-
   @Post()
   async create(@Body() createPirtyDto: CreatePirtyDto) {
-    //this.service.create(createPirtyDto)
+    return this.service.create(createPirtyDto)
+  }
+
+  /*  @Put(':id')
+  async update(@Param('id') id: number, @Body() createPirtyDto: CreatePirtyDto): Promise<Pirty> {
+    return await this.service.update(id, createPirtyDto)
+  }*/
+
+  @Delete(':id')
+  async delete(@Param('id') id: number): Promise<DeleteResult> {
+    return await this.service.delete(id)
+  }
+
+  @Post('member/:id')
+  async addMember(@Param('id') pirtyId: number, @Body() { userId }: { userId: string }): Promise<InsertResult> {
+    return await this.service.addMember(pirtyId, userId)
+  }
+
+  @Delete('member/:id')
+  async removeMember(@Param('id') pirtyId: number, @Body() { userId }: { userId: string }): Promise<DeleteResult> {
+    return await this.service.removeMember(pirtyId, userId)
   }
 }

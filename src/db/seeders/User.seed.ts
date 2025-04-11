@@ -12,15 +12,15 @@ export default class UserSeeder extends Seeder {
         email: 'test1',
         slackId: 'slackId',
         depertment: await depertmentRepository.findBy({ name: 'CCoE' }),
-        pirtys: [],
+        entryPirtys: [],
         organizePirtys: []
       },
       {
         name: 'じろう',
         email: 'test2',
         slackId: 'slackId',
-        depertment: await depertmentRepository.findBy({ name: 'ITプロダクト開発' }),
-        pirtys: [],
+        depertment: [], //await depertmentRepository.findBy({ name: 'ITプロダクト開発' }),
+        entryPirtys: [],
         organizePirtys: []
       }
     ])
